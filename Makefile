@@ -1,6 +1,6 @@
 include scripts/auth_service.mk
 
-.PHONY: gen-proto up
+.PHONY: gen-proto up create-migration
 
 up:
 	docker compose -f deployment/development/docker-compose.yaml down -v
@@ -14,5 +14,8 @@ gen-proto:
 		--go-grpc_out=pkg/grpc_stubs/auth_service \
 		--go-grpc_opt=paths=source_relative \
 		pkg/grpc_stubs/auth_service/auth_service.proto
+
+create-migration:
+	migrate create -ext sql -dir deployment/development/migrations -seq ${MIGRATION_NAME}
 
 .DEFAULT_GOAL=up
