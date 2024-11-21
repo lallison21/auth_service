@@ -1,9 +1,9 @@
 services:
   auth_service:
     build:
-      dockerfile: ./cmd/api/Dockerfile
+      dockerfile: ./Dockerfile
     env_file:
-      - ./.env
+      - ./.env.development
     ports:
       - "60000:60000"
     depends_on:
@@ -14,7 +14,7 @@ services:
     image: postgres
     container_name: postgres_container
     env_file:
-      - ./.env
+      - ./.env.development
     ports:
       - "5432:5432"
     healthcheck:

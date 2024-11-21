@@ -8,7 +8,7 @@ RUN go mod download
 
 COPY ../.. .
 
-RUN go build -o ./bin/todo ./cmd/api/api.go && \
+RUN go build -o ./bin/todo ./cmd/auth_service/auth_service.go && \
         chmod +x bin/todo
 
 FROM alpine:latest AS runner
