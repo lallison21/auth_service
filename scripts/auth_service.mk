@@ -14,5 +14,3 @@ build:
     	-X ${PROJECT}/version.Commit=${COMMIT} \
     	-X ${PROJECT}/version.BuildTime=${BUILD_TIME}" \
     	-o bin/auth_service cmd/auth_service/auth_service.go
-
-.DEFAULT_GOAL: build
