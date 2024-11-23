@@ -4,11 +4,13 @@ import (
 	"fmt"
 	"github.com/ilyakaznacheev/cleanenv"
 	"github.com/lallison21/auth_service/internal/config/logger"
+	"github.com/lallison21/auth_service/internal/config/storage"
 )
 
 type Config struct {
-	Grpc   GrpcConfig    `env:"GRPC"`
-	Logger logger.Logger `env:"LOGGER"`
+	Grpc     GrpcConfig       `env:"GRPC"`
+	Logger   logger.Logger    `env:"LOGGER"`
+	Postgres storage.Postgres `env:"POSTGRES"`
 }
 
 type GrpcConfig struct {
