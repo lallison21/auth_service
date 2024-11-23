@@ -4,7 +4,7 @@ services:
       context: ../..
       dockerfile: deployment/development/Dockerfile
     env_file:
-      - ./.env.development
+      - .env
     ports:
       - "60000:60000"
     depends_on:
@@ -13,9 +13,8 @@ services:
 
   postgres:
     image: postgres
-    container_name: postgres_container
     env_file:
-      - ./.env.development
+      - .env
     ports:
       - "5431:5432"
     healthcheck:
@@ -23,3 +22,23 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+
+  migration:
+    image: migrate/migrate
+    volumes:
+      - ./migrations:/migrations
+    env_file:
+      - .env
+    profiles: [ "tools" ]
+    entrypoint:
+      [
+        "migrate",
+        "-path",
+        "/migrations",
+        "-database",
+        "postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}?sslmode=disable"
+      ]
+    command: [ "up", "down" ]
+    depends_on:
+      postgres:
+        condition: service_healthy

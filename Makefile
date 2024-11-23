@@ -1,11 +1,15 @@
 include scripts/auth_service.mk
 
-.PHONY: gen-proto up create-migration
+.PHONY: up down gen-proto create-migration migrate-up migrate-down
 
 up:
 	docker compose -f deployment/development/docker-compose.yaml down -v
 	docker compose -f deployment/development/docker-compose.yaml up -d postgres
+	docker compose -f deployment/development/docker-compose.yaml run migration up
 	docker compose -f deployment/development/docker-compose.yaml up -d --build --force-recreate auth_service
+
+down:
+	docker compose -f deployment/development/docker-compose.yaml down -v
 
 gen-proto:
 	protoc -I pkg/grpc_stubs/auth_service \
@@ -17,5 +21,11 @@ gen-proto:
 
 create-migration:
 	migrate create -ext sql -dir deployment/development/migrations -seq ${MIGRATION_NAME}
+
+migrate-up:
+	docker compose -f deployment/development/docker-compose.yaml run migration up
+
+migrate-down:
+	docker compose -f deployment/development/docker-compose.yaml run migration down
 
 .DEFAULT_GOAL=up
