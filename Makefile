@@ -5,7 +5,7 @@ include scripts/auth_service.mk
 up:
 	docker compose -f deployment/development/docker-compose.yaml down -v
 	docker compose -f deployment/development/docker-compose.yaml up -d postgres
-	docker compose -f deployment/development/docker-compose.yaml run migration up
+	docker compose -f deployment/development/docker-compose.yaml run --rm migration up
 	docker compose -f deployment/development/docker-compose.yaml up -d --build --force-recreate auth_service
 
 down:
@@ -23,9 +23,9 @@ create-migration:
 	migrate create -ext sql -dir deployment/development/migrations -seq ${MIGRATION_NAME}
 
 migrate-up:
-	docker compose -f deployment/development/docker-compose.yaml run migration up
+	docker compose -f deployment/development/docker-compose.yaml run --rm migration up
 
 migrate-down:
-	docker compose -f deployment/development/docker-compose.yaml run migration down
+	docker compose -f deployment/development/docker-compose.yaml run --rm migration down
 
 .DEFAULT_GOAL=up
