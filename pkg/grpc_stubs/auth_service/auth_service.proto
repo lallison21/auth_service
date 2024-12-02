@@ -7,7 +7,6 @@ option go_package = "github.com/lallison21/auth_service/pkg/grpc_stubs/auth_serv
 service AuthService {
   rpc Register(RegisterRequest) returns (RegisterResponse);
   rpc Login(LoginRequest) returns (LoginResponse);
-  rpc IsAdmin(IsAdminRequest) returns (IsAdminResponse);
 }
 
 message RegisterRequest {
@@ -24,17 +23,9 @@ message RegisterResponse {
 message LoginRequest {
   string email = 1;
   string password = 2;
-  int32 app_id = 3;
 }
 
 message LoginResponse {
-  string token = 1;
-}
-
-message IsAdminRequest {
-  int32 user_id = 1;
-}
-
-message IsAdminResponse {
-  bool is_admin = 1;
+  string accessToken = 1;
+  string refreshToken = 2;
 }

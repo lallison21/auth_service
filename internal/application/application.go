@@ -4,7 +4,9 @@ import (
 	"fmt"
 	"github.com/lallison21/auth_service/internal/api/grpc"
 	"github.com/lallison21/auth_service/internal/config/config"
+	"github.com/lallison21/auth_service/internal/config/jwt_utils"
 	"github.com/lallison21/auth_service/internal/config/logger"
+	"github.com/lallison21/auth_service/internal/config/password"
 	"github.com/lallison21/auth_service/internal/config/storage"
 	"github.com/lallison21/auth_service/internal/repository"
 	"github.com/lallison21/auth_service/internal/service"
@@ -27,7 +29,11 @@ func New(cfg *config.Config) (*Application, error) {
 	}
 
 	authRepo := repository.New(postgresDb)
-	authService := service.New(authRepo)
+
+	passUtils := password.New(&cfg.Password)
+	jwtUtils := jwt_utils.New(&cfg.JWT)
+
+	authService := service.New(authRepo, passUtils, jwtUtils)
 
 	return &Application{
 		cfg:     cfg,

@@ -3,14 +3,18 @@ package config
 import (
 	"fmt"
 	"github.com/ilyakaznacheev/cleanenv"
+	"github.com/lallison21/auth_service/internal/config/jwt_utils"
 	"github.com/lallison21/auth_service/internal/config/logger"
+	"github.com/lallison21/auth_service/internal/config/password"
 	"github.com/lallison21/auth_service/internal/config/storage"
 )
 
 type Config struct {
-	Grpc     GrpcConfig       `env:"GRPC"`
-	Logger   logger.Logger    `env:"LOGGER"`
-	Postgres storage.Postgres `env:"POSTGRES"`
+	Grpc     GrpcConfig          `env:"GRPC"`
+	Logger   logger.Logger       `env:"LOGGER"`
+	Postgres storage.Postgres    `env:"POSTGRES"`
+	Password password.Password   `env:"PASSWORD"`
+	JWT      jwt_utils.JWTConfig `env:"JWT"`
 }
 
 type GrpcConfig struct {
