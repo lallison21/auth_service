@@ -2,6 +2,7 @@ package grpc
 
 import (
 	"fmt"
+	"github.com/lallison21/auth_service/internal/api"
 	"github.com/lallison21/auth_service/internal/config/config"
 	"github.com/lallison21/auth_service/pkg/grpc_stubs/auth_service"
 	"github.com/rs/zerolog"
@@ -11,9 +12,11 @@ import (
 
 type server struct {
 	auth_service.UnimplementedAuthServiceServer
+	service api.Service
+	logger  *zerolog.Logger
 }
 
-func RunServer(log *zerolog.Logger, cfg config.GrpcConfig) {
+func RunServer(cfg *config.GrpcConfig, log *zerolog.Logger, service api.Service) error {
 	addr := fmt.Sprintf("%s:%s", cfg.AppHost, cfg.AppPort)
 	lis, err := net.Listen("tcp", addr)
 	if err != nil {
@@ -21,11 +24,15 @@ func RunServer(log *zerolog.Logger, cfg config.GrpcConfig) {
 	}
 
 	s := grpc.NewServer()
-	_, _ = s, lis
 
 	log.Info().Msgf("[application.RunApi] listening on %s", addr)
-	auth_service.RegisterAuthServiceServer(s, &server{})
+	auth_service.RegisterAuthServiceServer(s, &server{
+		service: service,
+		logger:  log,
+	})
 	if err := s.Serve(lis); err != nil {
 		panic(fmt.Errorf("[application.RunApi] failed to serve: %w", err))
 	}
+
+	return nil
 }
