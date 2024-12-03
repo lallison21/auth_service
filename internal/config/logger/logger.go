@@ -7,9 +7,9 @@ import (
 )
 
 type Logger struct {
-	LogIndex  string `env:"LOG_INDEX" required:"true" default:"auth_service"`
-	IsDebug   bool   `env:"IS_DEBUG" required:"true" default:"false"`
-	LogToFile bool   `env:"LOG_TO_FILE" required:"true" default:"true"`
+	LogIndex  string `env:"LOG_INDEX" required:"true" env-default:"auth_service"`
+	IsDebug   bool   `env:"IS_DEBUG" required:"true" env-default:"false"`
+	LogToFile bool   `env:"LOG_TO_FILE" required:"true" env-default:"true"`
 }
 
 func New(cfg Logger) *zerolog.Logger {

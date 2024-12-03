@@ -11,11 +11,11 @@ import (
 )
 
 type Password struct {
-	Memory      uint32 `env:"PASSWORD_MEMORY" required:"true" default:"65536"`
-	Iterations  uint32 `env:"PASSWORD_ITERATIONS" required:"true" default:"3"`
-	Parallelism uint8  `env:"PASSWORD_PARALLELISM" required:"true" default:"4"`
-	SaltLength  uint32 `env:"PASSWORD_SALT_LENGTH" required:"true" default:"16"`
-	KeyLength   uint32 `env:"PASSWORD_KEY_LENGTH" required:"true" default:"32"`
+	Memory      uint32 `env:"PASSWORD_MEMORY" required:"true" env-default:"65536"`
+	Iterations  uint32 `env:"PASSWORD_ITERATIONS" required:"true" env-default:"1"`
+	Parallelism uint8  `env:"PASSWORD_PARALLELISM" required:"true" env-default:"4"`
+	SaltLength  uint32 `env:"PASSWORD_SALT_LENGTH" required:"true" env-default:"16"`
+	KeyLength   uint32 `env:"PASSWORD_KEY_LENGTH" required:"true" env-default:"32"`
 }
 
 type Utils struct {

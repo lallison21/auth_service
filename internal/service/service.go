@@ -51,7 +51,7 @@ func (s *Service) Register(ctx context.Context, newUser *models.CreateUserDto) (
 }
 
 func (s *Service) Login(ctx context.Context, login *models.LoginUserDto) (*models.Tokens, error) {
-	existingUser, err := s.repository.GetUserByUsernameOrEmail(ctx, login.Username, login.Password)
+	existingUser, err := s.repository.GetUserByEmail(ctx, login.Email)
 	if err != nil {
 		return nil, fmt.Errorf("[service.Login] get user: %w", err)
 	}

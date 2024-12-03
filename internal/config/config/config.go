@@ -18,8 +18,8 @@ type Config struct {
 }
 
 type GrpcConfig struct {
-	AppHost string `env:"GRPC_HOST" required:"true" default:"0.0.0.0"`
-	AppPort string `env:"GRPC_PORT" required:"true" default:"60000"`
+	AppHost string `env:"GRPC_HOST" required:"true" env-default:"0.0.0.0"`
+	AppPort string `env:"GRPC_PORT" required:"true" env-default:"60000"`
 }
 
 func MustEnv() *Config {

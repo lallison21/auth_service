@@ -18,10 +18,10 @@ func New(db *pgxpool.Pool) *Repository {
 }
 
 func (r *Repository) Register(ctx context.Context, newUser *models.UserDao) (int, error) {
-	query := `INSERT INTO users(username, password, password) VALUES ($1, $2, $3) RETURNING id`
+	query := `INSERT INTO users(username, password, email) VALUES ($1, $2, $3) RETURNING id`
 
 	var userId int
-	err := r.db.QueryRow(ctx, query, newUser.Username, newUser.Password, newUser.Password).Scan(&userId)
+	err := r.db.QueryRow(ctx, query, newUser.Username, newUser.Password, newUser.Email).Scan(&userId)
 	if err != nil {
 		return -1, err
 	}
@@ -29,18 +29,10 @@ func (r *Repository) Register(ctx context.Context, newUser *models.UserDao) (int
 	return userId, nil
 }
 
-func (r *Repository) GetUserByUsernameOrEmail(ctx context.Context, username, email string) (*models.UserDao, error) {
-	queryBuilder := squirrel.Select("id", "username", "password", "email").From("users")
-
-	if username != "" && email == "" {
-		queryBuilder = queryBuilder.Where(squirrel.Eq{"username": username})
-	}
-	if email != "" && username == "" {
-		queryBuilder = queryBuilder.Where(squirrel.Eq{"email": email})
-	}
-	if username != "" && email != "" {
-		queryBuilder = queryBuilder.Where(squirrel.Or{squirrel.Eq{"username": username}, squirrel.Eq{"email": email}})
-	}
+func (r *Repository) GetUserByEmail(ctx context.Context, email string) (*models.UserDao, error) {
+	queryBuilder := squirrel.Select("id", "username", "password", "email").
+		From("users").
+		Where(squirrel.Eq{"email": email})
 
 	query, args, err := queryBuilder.PlaceholderFormat(squirrel.Dollar).ToSql()
 	if err != nil {

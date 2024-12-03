@@ -7,9 +7,9 @@ import (
 )
 
 type JWTConfig struct {
-	SecretKey       string        `env:"JWT_SECRET_KEY" required:"true" default:"superSecretKey"`
-	AccessTokenExp  time.Duration `env:"JWT_ACCESS_TOKEN_EXP" required:"true" default:"5m"`
-	RefreshTokenExp time.Duration `env:"JWT_REFRESH_TOKEN_EXP" required:"true" default:"1h"`
+	SecretKey       string        `env:"JWT_SECRET_KEY" required:"true" env-default:"superSecretKey"`
+	AccessTokenExp  time.Duration `env:"JWT_ACCESS_TOKEN_EXP" required:"true" env-default:"5m"`
+	RefreshTokenExp time.Duration `env:"JWT_REFRESH_TOKEN_EXP" required:"true" env-default:"1h"`
 }
 
 type Utils struct {

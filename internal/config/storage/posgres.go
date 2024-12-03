@@ -8,14 +8,14 @@ import (
 )
 
 type Postgres struct {
-	PostgresHost     string        `env:"POSTGRES_HOST" envDefault:"localhost"`
-	PostgresqlPort   string        `env:"POSTGRES_PORT" envDefault:"5432"`
-	PostgresUser     string        `env:"POSTGRES_USER" envDefault:"postgres"`
-	PostgresPassword string        `env:"POSTGRES_PASSWORD" envDefault:"postgres"`
-	PostgresDb       string        `env:"POSTGRES_DB" envDefault:"postgres"`
-	MaxIdleConnTime  time.Duration `env:"MAX_IDLE_CONN_TIME" envDefault:"5m"`
-	MaxConn          string        `env:"MAX_CONN" envDefault:"10"`
-	ConnMaxLifetime  time.Duration `env:"CONN_MAX_LIFETIME" envDefault:"10m"`
+	PostgresHost     string        `env:"POSTGRES_HOST" env-default:"localhost"`
+	PostgresqlPort   string        `env:"POSTGRES_PORT" env-default:"5432"`
+	PostgresUser     string        `env:"POSTGRES_USER" env-default:"postgres"`
+	PostgresPassword string        `env:"POSTGRES_PASSWORD" env-default:"postgres"`
+	PostgresDb       string        `env:"POSTGRES_DB" env-default:"postgres"`
+	MaxIdleConnTime  time.Duration `env:"MAX_IDLE_CONN_TIME" env-default:"5m"`
+	MaxConn          string        `env:"MAX_CONN" env-default:"10"`
+	ConnMaxLifetime  time.Duration `env:"CONN_MAX_LIFETIME" env-default:"10m"`
 }
 
 const (

@@ -30,7 +30,7 @@ func (c *CreateUserDto) FromGRPC(in *auth_service.RegisterRequest) *CreateUserDt
 }
 
 type LoginUserDto struct {
-	Username string `json:"username" example:"username"`
+	Email    string `json:"email" example:"email"`
 	Password string `json:"password,omitempty" example:"password"`
 }
 
@@ -40,7 +40,7 @@ func EmptyLoginUserDto() *LoginUserDto {
 
 func (c *LoginUserDto) FromGRPC(in *auth_service.LoginRequest) *LoginUserDto {
 	return &LoginUserDto{
-		Username: in.Email,
+		Email:    in.Email,
 		Password: in.Password,
 	}
 }

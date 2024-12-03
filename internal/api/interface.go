@@ -7,5 +7,5 @@ import (
 
 type Service interface {
 	Register(ctx context.Context, newUser *models.CreateUserDto) (int, error)
-	Login(ctx context.Context, newUser *models.LoginUserDto) (models.Tokens, error)
+	Login(ctx context.Context, newUser *models.LoginUserDto) (*models.Tokens, error)
 }
