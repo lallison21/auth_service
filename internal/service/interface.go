@@ -1,6 +1,12 @@
 package service
 
+import (
+	"context"
+	"github.com/lallison21/auth_service/internal/models"
+)
+
 type Repository interface {
+	Register(ctx context.Context, newUser *models.UserDao) (int, error)
 }
 
 type PasswordUtils interface {

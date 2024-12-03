@@ -50,5 +50,9 @@ func (a *Application) RunApi() {
 		version.BuildTime,
 	)
 
-	grpc.RunServer(a.log, a.cfg.Grpc)
+	err := grpc.RunServer(&a.cfg.Grpc, a.log, a.service)
+	if err != nil {
+		a.log.Fatal().Err(err).Msg("[application.RunApi] grpc server failed")
+		panic(err)
+	}
 }

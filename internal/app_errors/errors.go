@@ -3,6 +3,7 @@ package app_errors
 import "errors"
 
 var (
-	ErrInvalidHash         = errors.New("the encoded hash is not in the correct format")
-	ErrIncompatibleVersion = errors.New("incompatible version of argon2")
+	ErrPassAndConfirmDoseNotMatch = errors.New("password and confirm dose not match")
+	ErrInvalidHash                = errors.New("the encoded hash is not in the correct format")
+	ErrIncompatibleVersion        = errors.New("incompatible version of argon2")
 )
