@@ -7,6 +7,7 @@ import (
 
 type Repository interface {
 	Register(ctx context.Context, newUser *models.UserDao) (int, error)
+	GetUserByUsernameOrEmail(ctx context.Context, username, email string) (*models.UserDao, error)
 }
 
 type PasswordUtils interface {

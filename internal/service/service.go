@@ -50,6 +50,33 @@ func (s *Service) Register(ctx context.Context, newUser *models.CreateUserDto) (
 	return newUserId, nil
 }
 
-func (s *Service) Login(ctx context.Context, newUser *models.LoginUserDto) (models.Tokens, error) {
-	return models.Tokens{}, nil
+func (s *Service) Login(ctx context.Context, login *models.LoginUserDto) (*models.Tokens, error) {
+	existingUser, err := s.repository.GetUserByUsernameOrEmail(ctx, login.Username, login.Password)
+	if err != nil {
+		return nil, fmt.Errorf("[service.Login] get user: %w", err)
+	}
+
+	passMatch, err := s.passUtils.ComparePassword(login.Password, existingUser.Password)
+	if err != nil {
+		return nil, fmt.Errorf("[service.Login] verify password: %w", err)
+	}
+	if !passMatch {
+		return nil, fmt.Errorf("[service.Login] verify password: %w", app_errors.ErrWrongCredentials)
+	}
+
+	accessToken, _, err := s.jwtUtils.GenerateAccessToken(existingUser.Id)
+	if err != nil {
+		return nil, fmt.Errorf("[service.Login] generate access token: %w", err)
+	}
+	refreshToken, _, err := s.jwtUtils.GenerateRefreshToken(existingUser.Id)
+	if err != nil {
+		return nil, fmt.Errorf("[service.Login] generate refresh token: %w", err)
+	}
+
+	userTokens := &models.Tokens{
+		AccessToken:  accessToken,
+		RefreshToken: refreshToken,
+	}
+
+	return userTokens, nil
 }
